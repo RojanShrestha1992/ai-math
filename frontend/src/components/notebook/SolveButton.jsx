@@ -1,10 +1,12 @@
 import { TbSparkles } from 'react-icons/tb'
 import useNotebookStore from '../../store/useNotebookStore'
 import { getValidationMessage, isEmptyExpression } from '../../utils/mathValidation'
+import LoadingSpinner from '../ui/LoadingSpinner'
 
 function SolveButton() {
   const currentExpression = useNotebookStore((state) => state.currentExpression)
   const isLoading = useNotebookStore((state) => state.isLoading)
+  const solveCurrentProblem = useNotebookStore((state) => state.solveCurrentProblem)
 
   const isEmpty = isEmptyExpression(currentExpression)
   const validationMessage = getValidationMessage(currentExpression)
@@ -26,14 +28,12 @@ function SolveButton() {
         aria-label="Solve math problem"
         aria-busy={isLoading}
         disabled={!isValid || isLoading}
+        onClick={solveCurrentProblem}
         className={`w-full sm:w-64 h-14 rounded-full font-bold text-lg transition-all duration-300 flex items-center justify-center gap-2 ${className}`}
       >
         {isLoading ? (
           <>
-            <span
-              className="inline-block w-5 h-5 border-2 border-white/40 border-t-white rounded-full animate-spin"
-              aria-hidden="true"
-            />
+            <LoadingSpinner size="sm" color="white" />
             Solving...
           </>
         ) : (

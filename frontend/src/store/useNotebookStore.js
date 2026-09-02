@@ -1,6 +1,7 @@
 import { create } from 'zustand'
+import { solveProblem, getErrorMessage } from '../services/problemService'
 
-const useNotebookStore = create((set) => ({
+const useNotebookStore = create((set, get) => ({
   // Input mode
   inputMode: 'type',  // 'type' | 'write' | 'image'
   setInputMode: (mode) => set({ inputMode: mode }),
@@ -49,6 +50,25 @@ const useNotebookStore = create((set) => ({
     error: null,
     isLoading: false,
   }),
+
+  // Solve the current expression via the backend API
+  solveCurrentProblem: async () => {
+    const { currentExpression, isLoading } = get()
+    // Guard: don't solve if already loading or no expression
+    if (isLoading || !currentExpression.trim()) return
+
+    set({ isLoading: true, error: null, solution: null })
+
+    try {
+      const result = await solveProblem(currentExpression)
+      set({ solution: result })
+    } catch (err) {
+      const message = getErrorMessage(err.code, err.message)
+      set({ error: message, solution: null })
+    } finally {
+      set({ isLoading: false })
+    }
+  },
 }))
 
 export default useNotebookStore

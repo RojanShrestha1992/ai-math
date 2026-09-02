@@ -8,6 +8,7 @@ function Toolbar() {
   const canUndo = useNotebookStore((state) => state.canUndo)
   const canRedo = useNotebookStore((state) => state.canRedo)
   const setToolbarAction = useNotebookStore((state) => state.setToolbarAction)
+  const resetProblem = useNotebookStore((state) => state.resetProblem)
   const [copied, setCopied] = useState(false)
 
   const handleCopy = async () => {
@@ -19,6 +20,12 @@ function Toolbar() {
     } catch {
       // Clipboard unavailable — ignore silently
     }
+  }
+
+  const handleClear = () => {
+    // Reset all store state and clear the math field
+    resetProblem()
+    setToolbarAction('clear')
   }
 
   const buttons = [
@@ -44,7 +51,7 @@ function Toolbar() {
       icon: MdDeleteOutline,
       ariaLabel: 'Clear',
       disabled: false,
-      onClick: () => setToolbarAction('clear'),
+      onClick: handleClear,
     },
     {
       id: 'eraser',

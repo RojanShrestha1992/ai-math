@@ -1,3 +1,52 @@
 @import "tailwindcss";
 @variant dark (&:where(.dark, .dark *));
 
+/* MathLive math-field styling (web component — shadow DOM, so plain CSS) */
+.math-field-custom {
+  --mathlive-background-color: #ffffff;
+  --mathlive-text-color: #1f2937;
+  --mathlive-caret-color: #4f46e5;
+  --mathlive-selection-background-color: rgba(99, 102, 241, 0.25);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.math-field-custom:focus-within {
+  border-color: #6366f1 !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+}
+
+.dark .math-field-custom {
+  --mathlive-background-color: #111827;
+  --mathlive-text-color: #f3f4f6;
+  --mathlive-caret-color: #818cf8;
+  --mathlive-selection-background-color: rgba(129, 140, 248, 0.3);
+  border-color: #4b5563 !important;
+}
+
+.dark .math-field-custom:focus-within {
+  border-color: #818cf8 !important;
+  box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.3);
+}
+
+/* Static math rendering (ExpressionPreview) */
+.math-preview .ML__mathlive {
+  font-size: 1.25rem;
+  color: inherit;
+}
+
+/* Fade-in animation for the expression preview */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.25s ease-out;
+}
+

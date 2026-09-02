@@ -21,6 +21,19 @@ const useNotebookStore = create((set) => ({
   error: null,
   setError: (error) => set({ error }),
 
+    // Toolbar action (type mode): 'clear' | 'undo' | 'redo' | 'copy' | null
+    toolbarAction: null,
+    setToolbarAction: (action) => set({ toolbarAction: action }),
+
+    // Undo/redo availability (updated by TypedInputPanel from MathLive)
+    canUndo: false,
+    canRedo: false,
+    setUndoState: (canUndo, canRedo) => set({ canUndo, canRedo }),
+
+    // Math shortcut LaTeX to insert into the math field (type mode)
+    shortcutInsert: null,
+    setShortcutInsert: (latex) => set({ shortcutInsert: latex }),
+
   // Theme
   theme: localStorage.getItem('theme') || 'light',
   toggleTheme: () => set((state) => {
